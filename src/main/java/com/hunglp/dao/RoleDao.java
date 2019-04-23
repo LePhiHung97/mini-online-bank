@@ -7,6 +7,6 @@ import com.hunglp.domain.security.Role;
 
 public interface RoleDao extends CrudRepository<Role, Integer>{
 	
-	@Query("SELECT r FROM ROLE r WHERE name = :name")
+	@Query("SELECT r FROM Role r WHERE name = :name")
 	Role findByName(String name);
 }

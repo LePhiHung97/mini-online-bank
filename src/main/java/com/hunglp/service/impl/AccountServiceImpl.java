@@ -3,6 +3,7 @@ package com.hunglp.service.impl;
 import java.math.BigDecimal;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.hunglp.dao.PrimaryAccountDao;
 import com.hunglp.dao.SavingsAccountDao;
@@ -10,6 +11,8 @@ import com.hunglp.domain.PrimaryAccount;
 import com.hunglp.domain.SavingsAccount;
 import com.hunglp.service.AccountService;
 
+
+@Service
 public class AccountServiceImpl implements AccountService {
 
 	private static int nextAccountNumber = 11223145;

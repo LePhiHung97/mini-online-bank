@@ -7,6 +7,6 @@ import com.hunglp.domain.SavingsAccount;
 
 public interface SavingsAccountDao extends CrudRepository<SavingsAccount, Long>{
 	
-	@Query("SELECT sa FROM saving_account sa WHERE sa.account_number = :accountNumber")
+	@Query("SELECT sa FROM SavingsAccount sa WHERE sa.accountNumber = :accountNumber")
 	SavingsAccount findByAccountNumber(int accountNumber);
 }

@@ -7,7 +7,7 @@ import com.hunglp.domain.PrimaryAccount;
 
 public interface PrimaryAccountDao extends CrudRepository<PrimaryAccount, Long> {
 	
-	@Query("SELECT pa FROM primary_account pa WHERE pa.account_number = :accountNumber")
+	@Query("SELECT pa FROM PrimaryAccount pa WHERE pa.accountNumber = :accountNumber")
 	PrimaryAccount findByAccountNumber(int accountNumber);
 	
 	

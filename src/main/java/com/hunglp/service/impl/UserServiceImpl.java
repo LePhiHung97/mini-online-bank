@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
 	public void save(User user) {
 		// Ma hoa password
 		String encryptedPassword = "";
-		byte[] salt;
+		byte[] salt =  new byte[16];
 		try {
 			salt = HashHelper.getSalt();
 			encryptedPassword = HashHelper.getSecurePassword(user.getPassword(), salt);
@@ -84,10 +84,11 @@ public class UserServiceImpl implements UserService {
 		Set<UserRole> userRoles = new HashSet<UserRole>();
 		userRoles.add(new UserRole(user, roleDao.findByName("ROLE_USER")));
 		user.setUserRoles(userRoles);
+		user.setSalt(salt.toString());
 
-		// Set Account-type : primary & savings
-		user.setSavingsAccount(accountService.createSavingsAccount());
-		user.setPrimaryAccount(accountService.createPrimaryAccount());
+		//Set Account-type : primary & savings
+		//user.setSavingsAccount(accountService.createSavingsAccount());
+		//user.setPrimaryAccount(accountService.createPrimaryAccount());
 
 		userDao.save(user);
 	}
