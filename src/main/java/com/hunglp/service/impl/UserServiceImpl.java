@@ -87,20 +87,22 @@ public class UserServiceImpl implements UserService {
 		user.setSalt(salt.toString());
 
 		//Set Account-type : primary & savings
-		//user.setSavingsAccount(accountService.createSavingsAccount());
-		//user.setPrimaryAccount(accountService.createPrimaryAccount());
+		user.setSavingsAccount(accountService.createSavingsAccount());
+		user.setPrimaryAccount(accountService.createPrimaryAccount());
 
 		userDao.save(user);
 	}
 
-	@Override
-	public User findByUsernamePassword(String username, String password,String salt) {
-		return userDao.findByUsernamePassword(username, password, salt);
-	}
+	
 
 	@Override
 	public String getSaltByUsername(String username) {
 		return userDao.getSaltByUsername(username);
+	}
+
+	@Override
+	public User findByUsernamePassword(String username, String password) {
+		return userDao.findByUsernamePassword(username, password);
 	}
 
 }

@@ -4,6 +4,7 @@ import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -55,7 +56,7 @@ public class HomeController {
 			return "signup";
 		} else {
 			userService.save(user);
-
+			
 			userRoleService.save(new UserRole(user, roleDao.findByName("ROLE_USER")));
 			model.addAttribute("signupSuccess", messageSource.getMessage("signup.success", null, null));
 			return "index";
@@ -64,12 +65,12 @@ public class HomeController {
 
 	@RequestMapping(value = "/signin", method = RequestMethod.POST)
 	public String signinPost(Principal principal, Model model, @ModelAttribute User user) {
-
+		
 		// Lay password ma hoa
-		String salt = userService.getSaltByUsername(principal.getName());
+		String salt = userService.getSaltByUsername(user.getUsername());
 		String password = HashHelper.getSecurePassword(user.getPassword(), salt.getBytes());
 
-		user = userService.findByUsernamePassword(user.getUsername(), user.getPassword(), salt);
+		user = userService.findByUsernamePassword(user.getUsername(), password);
 		if (user != null) {
 			model.addAttribute("user", user);
 			return "welcome";

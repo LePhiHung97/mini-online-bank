@@ -18,7 +18,7 @@ public interface UserService {
 	
 	void save(User user);
 	
-	User findByUsernamePassword(String username, String password, String salt);
+	User findByUsernamePassword(String username, String password);
 	
 	String getSaltByUsername(String username);
 

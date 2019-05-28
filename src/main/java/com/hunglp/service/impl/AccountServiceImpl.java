@@ -9,6 +9,7 @@ import com.hunglp.dao.PrimaryAccountDao;
 import com.hunglp.dao.SavingsAccountDao;
 import com.hunglp.domain.PrimaryAccount;
 import com.hunglp.domain.SavingsAccount;
+import com.hunglp.domain.User;
 import com.hunglp.service.AccountService;
 
 
@@ -48,6 +49,14 @@ public class AccountServiceImpl implements AccountService {
 		return savingsAccountDao.findByAccountNumber(savingsAccount.getAccountNumber());
 		
 	
+	}
+
+	@Override
+	public void withdraw(String accountType, double amount, User user) {
+		if(accountType.equals("primaryaccount")) {
+			primaryAccountDao.save()
+		}
+		
 	}
 
 }
