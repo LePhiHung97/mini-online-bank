@@ -35,26 +35,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	private static final String[] PUBLIC_MATCHERS = { "/webjars/**", "/css/**", "/js/**", "/images/**", "/",
-			"/about/**", "/contact/**", "/error/**/*", "/console/**", "/signup" };
+			"/about/**", "/contact/**", "/error/**/*", "/console/**", "/signup", "/signin" };
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userSecurityService).passwordEncoder(passwordEncoder());
+		//auth.userDetailsService(userSecurityService).passwordEncoder(passwordEncoder());
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
-		.antMatchers(PUBLIC_MATCHERS)
-		.permitAll().anyRequest().authenticated();
-		
-        http
-        .csrf().disable().cors().disable()
-        .formLogin().failureUrl("/index?error").defaultSuccessUrl("/userFront").loginPage("/index").permitAll()
-        .and()
-        .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/index?logout").deleteCookies("remember-me").permitAll()
-        .and()
-        .rememberMe();
+		/*
+		 * http.authorizeRequests() .antMatchers(PUBLIC_MATCHERS)
+		 * .permitAll().anyRequest().authenticated();
+		 * 
+		 * http .csrf().disable().cors().disable()
+		 * .formLogin().failureUrl("/signin?error").defaultSuccessUrl("/welcome").
+		 * loginPage("/signin").permitAll() .and() .logout().logoutRequestMatcher(new
+		 * AntPathRequestMatcher("/logout")).logoutSuccessUrl("/index?logout").
+		 * deleteCookies("remember-me").permitAll() .and() .rememberMe();
+		 */
 		
 				
 	}

@@ -65,35 +65,31 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void save(User user) {
-		// Ma hoa password
-		String encryptedPassword = "";
-		byte[] salt =  new byte[16];
+
+		String passwordToHash = user.getPassword();
+		byte[] salt;
 		try {
 			salt = HashHelper.getSalt();
-			encryptedPassword = HashHelper.getSecurePassword(user.getPassword(), salt);
-		} catch (NoSuchAlgorithmException e) {
-			
-			e.printStackTrace();
-		} catch (NoSuchProviderException e) {
-			
+			String securePassword = HashHelper.getSecurePassword(passwordToHash, salt);
+			System.out.println(securePassword); // Prints 83ee5baeea20b6c21635e4ea67847f66
+
+			user.setPassword(securePassword);
+			// Set Role
+			Set<UserRole> userRoles = new HashSet<UserRole>();
+			userRoles.add(new UserRole(user, roleDao.findByName("ROLE_USER")));
+			user.setUserRoles(userRoles);
+			user.setSalt(salt.toString());
+		} catch (NoSuchAlgorithmException | NoSuchProviderException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		user.setPassword(encryptedPassword);
 
-		// Set Role
-		Set<UserRole> userRoles = new HashSet<UserRole>();
-		userRoles.add(new UserRole(user, roleDao.findByName("ROLE_USER")));
-		user.setUserRoles(userRoles);
-		user.setSalt(salt.toString());
-
-		//Set Account-type : primary & savings
-		user.setSavingsAccount(accountService.createSavingsAccount());
-		user.setPrimaryAccount(accountService.createPrimaryAccount());
+		// Set Account-type : primary & savings
+		// user.setSavingsAccount(accountService.createSavingsAccount());
+		// user.setPrimaryAccount(accountService.createPrimaryAccount());
 
 		userDao.save(user);
 	}
-
-	
 
 	@Override
 	public String getSaltByUsername(String username) {

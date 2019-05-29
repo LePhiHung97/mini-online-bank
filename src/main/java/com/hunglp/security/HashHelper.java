@@ -39,4 +39,10 @@ public class HashHelper {
 	        //return salt
 	        return salt;
 	    }
+	    
+	    public static void main(String[] args) throws NoSuchAlgorithmException, NoSuchProviderException {
+			String password = "hunglp9397";
+			String salt = "[B@1510e771";
+			System.out.println(getSecurePassword(password,salt.getBytes()));
+		}
 }

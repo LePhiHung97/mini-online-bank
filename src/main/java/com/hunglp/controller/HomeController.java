@@ -56,7 +56,7 @@ public class HomeController {
 			return "signup";
 		} else {
 			userService.save(user);
-			
+
 			userRoleService.save(new UserRole(user, roleDao.findByName("ROLE_USER")));
 			model.addAttribute("signupSuccess", messageSource.getMessage("signup.success", null, null));
 			return "index";
@@ -65,20 +65,21 @@ public class HomeController {
 
 	@RequestMapping(value = "/signin", method = RequestMethod.POST)
 	public String signinPost(Principal principal, Model model, @ModelAttribute User user) {
-		
-		// Lay password ma hoa
-		String salt = userService.getSaltByUsername(user.getUsername());
-		String password = HashHelper.getSecurePassword(user.getPassword(), salt.getBytes());
 
-		user = userService.findByUsernamePassword(user.getUsername(), password);
+		// Lay password ma hoa 
+		String salt = userService.getSaltByUsername(user.getUsername());
+		String encryptedPassword = HashHelper.getSecurePassword(user.getPassword(), salt.getBytes());
+		System.out.println(user.getPassword());
+		System.out.println(salt);
+		System.out.println(encryptedPassword);
+
+		user = userService.findByUsernamePassword(user.getUsername(), encryptedPassword);
 		if (user != null) {
 			model.addAttribute("user", user);
-			return "welcome";
+			return "home";
 		} else {
 			model.addAttribute("signinFail", messageSource.getMessage("signin.fail", null, null));
-			return "signin";
+			return "index";
 		}
-
 	}
-
 }

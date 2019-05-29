@@ -12,7 +12,7 @@ public interface UserDao extends CrudRepository<User, Long> {
 	@Query("SELECT u FROM User u WHERE u.email = :email")
 	User findByEmail(String email);
 
-	@Query("SELECT u FROM User u WHERE username = :username AND password = :password ")
+	@Query("SELECT u FROM User u WHERE username = :username AND password = :password")
 	User findByUsernamePassword(String username, String password);
 
 	@Query("SELECT u.salt FROM User u WHERE u.username = :username")
