@@ -53,9 +53,7 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public void withdraw(String accountType, double amount, User user) {
-		if(accountType.equals("primaryaccount")) {
-			primaryAccountDao.save()
-		}
+		
 		
 	}
 
