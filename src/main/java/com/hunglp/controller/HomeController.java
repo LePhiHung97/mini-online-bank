@@ -69,9 +69,8 @@ public class HomeController {
 		// Lay password ma hoa 
 		String salt = userService.getSaltByUsername(user.getUsername());
 		String encryptedPassword = HashHelper.getSecurePassword(user.getPassword(), salt.getBytes());
-		System.out.println(user.getPassword());
-		System.out.println(salt);
-		System.out.println(encryptedPassword);
+		
+		
 
 		user = userService.findByUsernamePassword(user.getUsername(), encryptedPassword);
 		if (user != null) {

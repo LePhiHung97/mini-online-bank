@@ -47,13 +47,28 @@ public class AccountServiceImpl implements AccountService {
 		
 		savingsAccountDao.save(savingsAccount);
 		return savingsAccountDao.findByAccountNumber(savingsAccount.getAccountNumber());
-		
-	
 	}
 
 	@Override
 	public void withdraw(String accountType, double amount, User user) {
+		if(accountType.equalsIgnoreCase("Primary")) {
+			
+		}
 		
+	}
+
+	@Override
+	public void deposit(String accountType, double amount, User user) {
+		if(accountType.equalsIgnoreCase("Primary")) {
+			PrimaryAccount primaryAccount = user.getPrimaryAccount();
+			primaryAccount.setAccountBalance(primaryAccount.getAccountBalance().add(new BigDecimal(amount)));
+			primaryAccountDao.save(primaryAccount);
+		}
+		else if(accountType.equalsIgnoreCase("Savings")) {
+			SavingsAccount savingsAccount = user.getSavingsAccount();
+		    savingsAccount.setAccountBalance(savingsAccount.getAccountBalance().add(new BigDecimal(amount)));
+		    savingsAccountDao.save(savingsAccount);
+		}
 		
 	}
 

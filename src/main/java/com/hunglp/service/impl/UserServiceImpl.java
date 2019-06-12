@@ -17,9 +17,14 @@ import com.hunglp.security.HashHelper;
 import com.hunglp.service.AccountService;
 import com.hunglp.service.UserService;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 @Service
 public class UserServiceImpl implements UserService {
-
+	
+	private static final Logger LOGGER = Logger.getLogger(UserServiceImpl.class.getName());
 	@Autowired
 	private AccountService accountService;
 
@@ -81,7 +86,7 @@ public class UserServiceImpl implements UserService {
 			user.setSalt(salt.toString());
 		} catch (NoSuchAlgorithmException | NoSuchProviderException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+		    LOGGER.config("exception :" + e);
 		}
 
 		// Set Account-type : primary & savings
