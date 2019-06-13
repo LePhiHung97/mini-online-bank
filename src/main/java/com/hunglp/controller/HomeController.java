@@ -2,6 +2,8 @@ package com.hunglp.controller;
 
 import java.security.Principal;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -37,6 +39,13 @@ public class HomeController {
 	public String index() {
 		return "index";
 	}
+	
+	@RequestMapping(value="/home")
+	public String home(HttpSession session) {
+		User user = (User) session.getAttribute("user");
+		session.setAttribute("user", user);
+		return "home";
+	}
 
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String signup(Model model) {
@@ -64,18 +73,17 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/signin", method = RequestMethod.POST)
-	public String signinPost(Principal principal, Model model, @ModelAttribute User user) {
+	public String signinPost(Principal principal, Model model, @ModelAttribute User user,HttpSession session) {
 
 		// Lay password ma hoa 
 		String salt = userService.getSaltByUsername(user.getUsername());
 		String encryptedPassword = HashHelper.getSecurePassword(user.getPassword(), salt.getBytes());
-		
-		
 
 		user = userService.findByUsernamePassword(user.getUsername(), encryptedPassword);
 		if (user != null) {
-			model.addAttribute("user", user);
-			return "home";
+			//model.addAttribute("user", user);
+			session.setAttribute("user", user);
+			return "redirect:/home";
 		} else {
 			model.addAttribute("signinFail", messageSource.getMessage("signin.fail", null, null));
 			return "index";

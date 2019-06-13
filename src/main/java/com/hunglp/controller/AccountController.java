@@ -3,6 +3,8 @@ package com.hunglp.controller;
 import java.security.Principal;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,14 +51,21 @@ public class AccountController {
 	public String deposit(Model model) {
 		model.addAttribute("accountType", "");
 		model.addAttribute("amount","");
-		
 		return "deposit";
 	}
 	
 	@RequestMapping(value="/deposit",method=RequestMethod.POST)
-	public String deposit(@ModelAttribute("amount")String amount,@ModelAttribute("accountType") String accountType) {
-		
-		return null;
+	public String deposit(@ModelAttribute("amount")String amount,@ModelAttribute("accountType") String accountType,HttpSession session) {
+		User user = (User) session.getAttribute("user");
+		accountService.deposit(accountType, Double.parseDouble(amount), user);
+		return "home";	
+	}
+	
+	@RequestMapping(value="withdraw",method= RequestMethod.GET)
+	public String withdraw(Model model) {
+		model.addAttribute("accountType","");
+		model.addAttribute("amount", "");
+		return "withdraw";
 	}
 	
 	
