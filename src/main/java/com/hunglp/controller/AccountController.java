@@ -61,11 +61,18 @@ public class AccountController {
 		return "home";	
 	}
 	
-	@RequestMapping(value="withdraw",method= RequestMethod.GET)
+	@RequestMapping(value="/withdraw",method= RequestMethod.GET)
 	public String withdraw(Model model) {
 		model.addAttribute("accountType","");
 		model.addAttribute("amount", "");
 		return "withdraw";
+	}
+	
+	@RequestMapping(value="/withdraw",method=RequestMethod.POST)
+	public String withdraw(@ModelAttribute("amount")String amount,@ModelAttribute("accountType") String accountType,HttpSession session) {
+		User user = (User) session.getAttribute("user");
+		accountService.withdraw(accountType, Double.parseDouble(amount), user);
+		return "home";	
 	}
 	
 	
